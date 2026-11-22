@@ -8,6 +8,16 @@ Windows-style middle-click autoscroll for Ubuntu (Wayland, GNOME).
 
 Middle-click paste is disabled, because the middle button now toggles scroll mode.
 
+## Table of Contents
+
+- [1. Install and set permissions](#1-install-and-set-permissions)
+- [2. Create the daemon](#2-create-the-daemon)
+- [3. Install the sprite extension](#3-install-the-sprite-extension)
+- [4. Log out and back in](#4-log-out-and-back-in)
+- [5. Enable and run](#5-enable-and-run)
+- [How to use](#how-to-use)
+- [Troubleshooting](#troubleshooting)
+
 ## 1. Install and set permissions
 
 ```bash
@@ -150,7 +160,7 @@ Create the folder (no `sudo`, so you own the files):
 mkdir -p ~/.local/share/gnome-shell/extensions/autoscroll-sprite@local
 ```
 
-Create the manifest:
+Create the manifest. Use plain `nano` here, not `sudo nano`, so the file stays owned by you:
 
 ```bash
 nano ~/.local/share/gnome-shell/extensions/autoscroll-sprite@local/metadata.json
@@ -262,7 +272,26 @@ gnome-extensions enable autoscroll-sprite@local
 python3 ~/autoscroll.py
 ```
 
-Leave the terminal open. Middle-click to start, move the mouse, and middle-click again to stop. Press `Ctrl+C` in the terminal to quit the script.
+Leave the terminal open while you use it. Press `Ctrl+C` in that terminal to quit the script.
+
+## How to use
+
+The script has to be running for autoscroll to work. Start it with `python3 ~/autoscroll.py` in a terminal. It does not start on its own at login yet.
+
+1. Put the pointer over the content you want to scroll: a web page, a PDF, a document, or a code file.
+2. Middle-click once. A small ring appears under the cursor. That spot is the anchor.
+3. Move the mouse down to scroll down, or up to scroll up. The farther you move from the ring, the faster it scrolls.
+4. Move back toward the ring to slow down or stop. Moving left or right scrolls horizontally.
+5. Middle-click again to stop. Clicking any other mouse button also stops it.
+
+Notes:
+
+- The cursor still moves while scrolling, so you can aim the pointer at the part of the page you want.
+- While scroll mode is on, your physical scroll wheel is ignored.
+- Middle-click paste no longer works, because the middle button toggles scroll mode.
+- To change the feel, edit `SPEED` or `MAX_SPEED` at the top of `~/autoscroll.py`, save, then press `Ctrl+C` and run the script again.
+
+If the mouse ever stops responding, switch to a text console with `Ctrl+Alt+F3`, then press `Ctrl+C` in the terminal where the script is running, or run `pkill -f autoscroll.py`. Stopping the script releases the mouse.
 
 ## Troubleshooting
 
